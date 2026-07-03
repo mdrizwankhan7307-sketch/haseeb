@@ -4,53 +4,33 @@
 
 resource "aws_eks_cluster" "eks" {
 
-  name = "student-eks"
-
-  role_arn = aws_iam_role.eks_cluster_role.arn
-
-  version = "1.33"
+  name     = var.cluster_name
+  role_arn = var.cluster_role_arn
+  version  = var.cluster_version
 
   vpc_config {
 
     subnet_ids = concat(
-      aws_subnet.public[*].id,
-      aws_subnet.private[*].id
+      var.public_subnet_ids,
+      var.private_subnet_ids
     )
 
-    endpoint_public_access = true
-
+    endpoint_public_access  = true
     endpoint_private_access = true
 
     security_group_ids = [
-
-      aws_security_group.eks_cluster_sg.id
-
+      var.cluster_security_group_id
     ]
-
   }
 
   enabled_cluster_log_types = [
-
     "api",
-
     "audit",
-
     "authenticator"
-
-  ]
-
-  depends_on = [
-
-    aws_iam_role_policy_attachment.eks_cluster_policy
-
   ]
 
   tags = {
-
-    Environment = "Dev"
-
-    Project = "Student-App"
-
+    Environment = var.environment
+    Project     = var.project
   }
-
 }

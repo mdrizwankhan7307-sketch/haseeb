@@ -1,20 +1,21 @@
 #############################################
-# Security Group for EKS Control Plane
+# EKS Cluster Security Group
 #############################################
 
 resource "aws_security_group" "eks_cluster_sg" {
 
-  name        = "student-eks-cluster-sg"
+  name        = var.cluster_sg_name
   description = "Security Group for EKS Cluster"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 
   ingress {
 
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
-
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [
+      var.vpc_cidr
+    ]
 
   }
 
@@ -24,40 +25,34 @@ resource "aws_security_group" "eks_cluster_sg" {
     to_port   = 0
     protocol  = "-1"
 
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
 
   }
 
   tags = {
-    Name = "student-eks-cluster-sg"
+
+    Name = var.cluster_sg_name
+
   }
 
 }
 
 #############################################
-# Security Group for Worker Nodes
+# Worker Node Security Group
 #############################################
 
 resource "aws_security_group" "worker_node_sg" {
 
-  name        = "student-worker-node-sg"
-  description = "Security Group for EKS Worker Nodes"
-  vpc_id      = aws_vpc.main.id
+  name        = var.worker_sg_name
+  description = "Worker Node Security Group"
+  vpc_id      = var.vpc_id
 
   ingress {
 
     from_port = 0
     to_port   = 65535
-    protocol  = "tcp"
-
-    self = true
-
-  }
-
-  ingress {
-
-    from_port = 443
-    to_port   = 443
     protocol  = "tcp"
 
     security_groups = [
@@ -79,20 +74,22 @@ resource "aws_security_group" "worker_node_sg" {
   }
 
   tags = {
-    Name = "student-worker-node-sg"
+
+    Name = var.worker_sg_name
+
   }
 
 }
 
 #############################################
-# Security Group for RDS MySQL
+# RDS Security Group
 #############################################
 
 resource "aws_security_group" "rds_sg" {
 
-  name        = "student-rds-sg"
-  description = "Security Group for MySQL"
-  vpc_id      = aws_vpc.main.id
+  name        = var.rds_sg_name
+  description = "RDS Security Group"
+  vpc_id      = var.vpc_id
 
   ingress {
 
@@ -119,59 +116,9 @@ resource "aws_security_group" "rds_sg" {
   }
 
   tags = {
-    Name = "student-rds-sg"
-  }
 
-}
+    Name = var.rds_sg_name
 
-#############################################
-# Security Group for ALB
-#############################################
-
-resource "aws_security_group" "alb_sg" {
-
-  name        = "student-alb-sg"
-  description = "Security Group for Application Load Balancer"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
-
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
-
-  }
-
-  ingress {
-
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
-
-  }
-
-  egress {
-
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
-
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
-
-  }
-
-  tags = {
-    Name = "student-alb-sg"
   }
 
 }
