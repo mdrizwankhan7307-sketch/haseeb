@@ -4,4 +4,3 @@ db_username = "admin"
 
 db_password = "Haseeb123"
 
-db_name = "studentdb"
