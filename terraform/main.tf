@@ -6,10 +6,8 @@ module "networking" {
 
   source = "./networking"
 
-  vpc_cidr = var.vpc_cidr
-
+  vpc_cidr            = var.vpc_cidr
   public_subnet_cidrs = var.public_subnets
-
   private_subnet_cidrs = var.private_subnets
 }
 
@@ -106,11 +104,11 @@ module "eks" {
   node_group_name = "student-node-group"
 
   instance_types = [
-    "t3.medium"
+    "t2.micro"
   ]
 
-  desired_size = 2
-  min_size     = 2
-  max_size     = 4
+  desired_size = 1
+  min_size     = 1
+  max_size     = 1
 
 }
