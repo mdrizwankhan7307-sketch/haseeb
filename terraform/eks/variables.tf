@@ -52,7 +52,10 @@ variable "node_group_name" {
 variable "instance_types" {
   description = "EC2 Instance Types"
   type        = list(string)
-  default     = ["t3.medium"]
+
+  default = [
+    "t2.micro"
+  ]
 }
 
 variable "capacity_type" {
@@ -62,26 +65,31 @@ variable "capacity_type" {
 }
 
 variable "desired_size" {
-  type    = number
-  default = 2
+  description = "Desired Node Count"
+  type        = number
+  default     = 2
 }
 
 variable "min_size" {
-  type    = number
-  default = 2
+  description = "Minimum Node Count"
+  type        = number
+  default     = 2
 }
 
 variable "max_size" {
-  type    = number
-  default = 4
+  description = "Maximum Node Count"
+  type        = number
+  default     = 4
 }
 
 variable "environment" {
-  type    = string
-  default = "Dev"
+  description = "Environment"
+  type        = string
+  default     = "Dev"
 }
 
 variable "project" {
-  type    = string
-  default = "Student-App"
+  description = "Project Name"
+  type        = string
+  default     = "Student-App"
 }
