@@ -6,6 +6,11 @@ module "networking" {
 
   source = "./networking"
 
+  vpc_cidr = var.vpc_cidr
+
+  public_subnet_cidrs = var.public_subnets
+
+  private_subnet_cidrs = var.private_subnets
 }
 
 #############################################
@@ -27,7 +32,7 @@ module "security" {
   source = "./security"
 
   vpc_id   = module.networking.vpc_id
-  vpc_cidr = "10.0.0.0/16"
+  vpc_cidr = var.vpc_cidr
 
 }
 
@@ -59,8 +64,8 @@ module "secret_manager" {
 
   source = "./secret-manager"
 
-  db_username = "admin"
-  db_password = "Student@123"
+  db_username = var.db_username
+  db_password = var.db_password
 
 }
 
@@ -75,7 +80,7 @@ module "rds" {
   private_subnet_ids    = module.networking.private_subnet_ids
   rds_security_group_id = module.security.rds_security_group_id
 
-  password = "Student@123"
+  password = var.db_password
 
 }
 

@@ -42,8 +42,3 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "db_name" {
-  description = "Database Name"
-  type        = string
-  default     = "studentdb"
-}
