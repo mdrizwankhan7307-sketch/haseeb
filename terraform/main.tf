@@ -104,7 +104,7 @@ module "eks" {
   node_group_name = "student-node-group"
 
   instance_types = [
-    "t2.micro"
+    "t3.micro"
   ]
 
   desired_size = 1
